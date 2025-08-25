@@ -1,0 +1,39 @@
+:root {
+    --main-color: #2d6196;
+    --light-bg: #f4f8fb;
+    --light-text: #f5faff;
+    --hover-bg: #bbdefb;
+    --hover-text: #0f0e49;
+    --text-muted: #6c757d;
+    --text-dark: #2c2c2c;
+    --btn-color: #759065;        /* para botones */
+    --btn-hover: #d1d856;        /* hover del botón */
+    --btn-text: #ffffff;         /* texto de botón */
+    --btn-hover-text: #1c1c1c;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  app-root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  /* Asegurarse que el contenido crece y empuja al footer abajo */
+  .main-content {
+    flex: 1;
+  }
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,26 @@
+<div class="requisitos-container">
+  <div class="title-section">
+    <h2>DOCUMENTACIÓN Y REQUISITOS PARA EJERCER LA PROFESIÓN</h2>
+  </div>
+
+  <!-- Botonera de Requisitos -->
+  <div class="botonera">
+    <a class="btn btn-descarga" *ngFor="let doc of documentosRequisitos" 
+       [href]="'assets/docs/requisitos/' + doc.archivo" 
+       download>
+      <img src="/assets/iconos/descargar_pdf.ico" width="24" height="24" alt="Descargar PDF">
+      {{ doc.titulo }}
+    </a>
+  </div>
+
+  <!-- Sección de Notas -->
+  <div class="notas-section">
+    <h3>Notas de Ejemplo</h3>
+    <div class="notas-grid">
+      <div class="nota-card" *ngFor="let nota of documentosNotas">
+        <h4>{{ nota.titulo }}</h4>
+        <a [href]="'assets/docs/notas/' + nota.archivo" download class="btn-ver">Descargar Nota</a>
+      </div>
+    </div>
+  </div>
+</div>

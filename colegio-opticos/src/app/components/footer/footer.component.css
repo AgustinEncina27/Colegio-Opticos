@@ -1,0 +1,80 @@
+.footer {
+  background-color: var(--main-color);
+  color: var(--light-text);
+}
+
+.footer-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.logo {
+  cursor: pointer;
+  width: 150px;
+  height: auto;
+  border-radius: 20%;
+  object-fit: cover;
+}
+
+.footer-links {
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.footer-links p {
+  margin: 0.7rem 0;
+}
+
+.footer-links a {
+  color: var(--light-text);
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--hover-light);
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .footer-links {
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin-bottom: 1rem;
+  }
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-redes {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.icono-red {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1); /* blanco */
+  transition: transform 0.2s ease;
+}
+
+.icono-red:hover {
+  transform: scale(1.1);
+  filter: brightness(0.85) invert(1); /* efecto hover */
+}

@@ -1,0 +1,54 @@
+<div class="form-container">
+  <div class="card-form">
+    <h4 class="titulo">{{ esEdicion ? 'Editar Matriculado' : 'Nuevo Matriculado' }}</h4>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" class="form-control" formControlName="nombre">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="dni">DNI</label>
+          <input type="text" id="dni" class="form-control" formControlName="dni">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="telefono">Teléfono</label>
+          <input type="text" id="telefono" class="form-control" formControlName="telefono">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-control" formControlName="email">
+        </div>
+
+        <div class="col-12 mb-3 form-check d-flex align-items-center">
+          <input class="form-check-input me-2" type="checkbox" formControlName="habilitado" id="habilitado">
+          <label class="form-check-label" for="habilitado">Habilitado</label>
+        </div>
+      </div>
+
+      <div class="d-flex gap-3 mt-4">
+        <button type="submit" class="btn btn-principal">
+          {{ esEdicion ? 'Guardar cambios' : 'Registrar' }}
+        </button>
+        <button type="button" class="btn btn-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
+
+    <div class="contraseña mt-5 pt-3 border-top" *ngIf="esEdicion">
+      <h5 class="mb-3">Gestión de Contraseña</h5>
+      <button class="btn btn-outline-secondary mb-3" (click)="regenerarPassword()">Generar nueva contraseña</button>
+
+      <div *ngIf="nuevaPassword" class="alert alert-info d-flex justify-content-between align-items-center">
+        <div>
+          <strong>Nueva contraseña:</strong>
+          <code>{{ nuevaPassword }}</code>
+        </div>
+        <button class="btn btn-sm btn-outline-dark" (click)="copiarAlPortapapeles(nuevaPassword)">Copiar</button>
+      </div>
+    </div>
+  </div>
+</div>

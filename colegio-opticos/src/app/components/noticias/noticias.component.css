@@ -1,0 +1,46 @@
+.card-title {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .card-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  
+  .btn-outline-primary {
+    border-color: var(--main-color);
+    color: var(--main-color);
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: var(--hover-bg);
+    color: var(--hover-text);
+  }
+  
+  .w-45 {
+    width: 48%;
+  }
+  
+
+  .crear {
+    background-color: var(--btn-color);
+    color: var(--btn-text);
+  }
+  
+  .crear:hover {
+    background-color: var(--btn-hover);
+    color: var(--hover-text);
+  }
+  
+  .page-link.btn {
+    border: none;
+    margin: 0 2px;
+    transition: 0.3s ease;
+  }
+  
+  .page-link.btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--hover-text);
+  }
+  

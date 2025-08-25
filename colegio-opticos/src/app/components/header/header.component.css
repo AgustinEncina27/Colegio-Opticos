@@ -1,0 +1,162 @@
+
+/* BOTONES */
+.btn-outline-primary {
+  background-color: var(--main-color);
+  color: var(--light-text);
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-text);
+}
+
+/* ICONOS */
+.iconos {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  filter: brightness(0) invert(1);
+}
+
+#botonImagen img {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%) sepia(8%) saturate(2%) hue-rotate(62deg) brightness(113%) contrast(100%);
+}
+
+/* NAVBAR SUPERIOR (REDES + SESIÓN) */
+.navbar-social {
+  width: 100%;
+  background-color: var(--main-color);
+}
+
+.navbar-item {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.headerA {
+  height: 45px;
+}
+
+/* NAVBAR PRINCIPAL */
+.navbar2 {
+  width: 100%;
+  background-color: transparent;
+}
+
+.navbar-toggler {
+  border-color: var(--main-color);
+}
+
+.navbar-nav li {
+  margin: 0 10px;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--text-dark);
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--main-color);
+}
+
+/* CENTRAR UL */
+.centrar-horizontalmente {
+  width: 100%;
+  justify-content: center;
+}
+
+/* SESIÓN */
+.cerrarSesion {
+  width: 100%;
+  height: 40px;
+}
+
+#botonImagen {
+  background-color: var(--btn-color);
+  color: var(--light-text);
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#botonImagen:hover {
+  background-color: var(--main-color); /* un tono más oscuro del btn-color */
+  color: var(--light-text);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  
+  .navbar-toggler {
+    order: 2; /* Cambia el orden del botón del navbar-toggler */
+  }
+
+  .navbar-collapse {
+    order: 3; /* Cambia el orden de la lista <ul> */
+  }
+
+  #botonImagen {
+    order: 1; /* Cambia el orden del botón de WhatsApp para que aparezca antes de la lista <ul> */
+    margin-top: 10px; /* Agrega un margen superior para separar el botón de WhatsApp de la lista <ul> */
+  }
+}
+
+@media (max-width: 920px) {
+  .headerA{
+    height: 60px;
+  }
+
+  .dropdown .dropdown-toggle {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  .dropdown-menu {
+    min-width: 100% !important; /* Para que el menú se alinee al botón en mobile */
+  }
+
+  .cerrarSesion {
+    width: 100% !important;
+    font-size: 0.9rem;
+  }
+
+  .navbar .boton {
+    font-size: 0;
+  }
+}
+@media (max-width: 768px) {
+  .dropdown .dropdown-toggle {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  .dropdown-menu {
+    min-width: 100% !important; /* Para que el menú se alinee al botón en mobile */
+  }
+
+  .cerrarSesion {
+    width: 100% !important;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 590px) {
+  .headerA{
+    height: 80px;
+  }
+  .cerrarSesion{
+    width: 300px;
+    height: 30px;
+  }  
+}
+
+@media (max-width: 1535px) {
+  .navbar2 {
+    flex-direction: column; /* Cambia la dirección a columna para que los elementos se apilen uno encima del otro */
+  } 
+}

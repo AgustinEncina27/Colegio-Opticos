@@ -1,0 +1,94 @@
+<div class="formulario-container">
+    <h2>{{ esEdicion ? 'Editar Óptica' : 'Registrar Nueva Óptica' }}</h2>
+  
+    <form [formGroup]="formulario" (ngSubmit)="guardar()">
+  
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" formControlName="nombre" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Propietario</label>
+        <input type="text" formControlName="propietario" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" formControlName="direccion" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Buscar Localidad</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          formControlName="filtroLocalidad"
+          placeholder="Escribe para filtrar..." />
+      </div>
+      
+      <div class="form-group">
+        <label>Seleccionar Localidad</label>
+        <div class="list-group" style="max-height: 200px; overflow-y: auto;">
+          <label 
+            class="list-group-item" 
+            *ngFor="let loc of localidadesFiltradas">
+            <input 
+              type="radio" 
+              name="localidad" 
+              [value]="loc.id" 
+              (change)="seleccionarLocalidad(loc.id)" 
+              [checked]="formulario.value.idLocalidad === loc.id">
+            {{ loc.nombre }} - {{ loc.codigoPostal }}
+          </label>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" formControlName="telefono" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Buscar Óptico Técnico</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="filtroMatriculado" 
+          (input)="buscarMatriculados()" 
+          [ngModelOptions]="{standalone: true}"
+          placeholder="Nombre, matrícula o DNI" />
+      </div>
+      
+      <div class="form-group" *ngIf="matriculados.length > 0">
+        <label>Seleccionar Óptico Técnico</label>
+        <div class="list-group" style="max-height: 200px; overflow-y: auto;">
+          <label class="list-group-item" *ngFor="let m of matriculados">
+            <input 
+              type="radio" 
+              name="matriculado" 
+              [value]="m.id" 
+              (change)="seleccionarMatriculado(m.id)" 
+              [checked]="formulario.value.idMatriculado === m.id">
+            {{ m.nombre }} - Matrícula: {{ m.matricula }} - DNI: {{ m.dni }}
+          </label>
+        </div>
+      </div>
+  
+      <div class="form-group switch-group">
+        <label>Habilitada para Contactología</label>
+        <label class="switch">
+          <input type="checkbox" formControlName="habilitadaParaContactologia">
+          <span class="slider round"></span>
+        </label>
+      </div>
+  
+      <div class="botones">
+        <button type="submit" class="btn-guardar" [disabled]="formulario.invalid">
+          {{ esEdicion ? 'Guardar Cambios' : 'Registrar' }}
+        </button>
+        <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,158 @@
+<div class="container my-5">
+    <h2>Administración de Pagos</h2>
+  
+    <div class="d-flex my-3 gap-2">
+        <input class="form-control w-50" placeholder="Buscar por nombre o matrícula"
+               [(ngModel)]="filtro">
+        <button class="btn btn-primary" (click)="filtrar()">Buscar</button>
+        <button class="btn btn-secondary" (click)="limpiarFiltros()">Limpiar Filtros</button>
+        <button class="btn btn-success ms-auto"
+          [disabled]="cuotasSeleccionadas.length === 0"
+          (click)="confirmarPagosSeleccionados()">
+          Confirmar Pagos Seleccionados
+        </button>
+      </div>
+  
+    <div class="table-responsive shadow-sm">
+      <table class="table table-bordered text-center align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>Nombre</th>
+            <th>Matricula</th>
+            <th>Periodo</th>
+            <th>Monto</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cuota of cuotas">
+            <td>{{ cuota.nombreMatriculado }}</td>
+            <td>{{ cuota.matricula }}</td>
+            <td>{{ cuota.periodo }}</td>
+            <td>${{ cuota.monto }}</td>
+            <td>
+              <span class="badge"
+                    [ngClass]="cuota.estado === 'PAGADA' ? 'bg-success' : 'bg-danger'">
+                {{ cuota.estado }}
+              </span>
+            </td>
+            <td>
+              <label *ngIf="cuota.estado !== 'PAGADA'" class="align-items-center gap-2">
+                <input type="checkbox"
+                       [value]="cuota.id"
+                       (change)="toggleSeleccion(cuota.id, $event)">
+                <span>  Cambiar a PAGADA</span>
+              </label>
+              <!-- Botón para revertir si ya está pagada -->
+              <button *ngIf="cuota.estado === 'PAGADA'"
+              class="btn btn-sm btn-outline-danger ms-2"
+              (click)="marcarComoImpaga(cuota.id)">
+              Revertir a impaga
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Paginador con estilo personalizado -->
+    <nav *ngIf="totalPaginas > 1" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="paginaActual === 0">
+          <button class="page-link btn" style="color: var(--main-color);" (click)="irPagina(paginaActual - 1)">
+            &laquo; Anterior
+          </button>
+        </li>
+        <li class="page-item" *ngFor="let i of paginasVisibles"
+            [class.active]="i === paginaActual">
+          <button class="page-link btn"
+                  [ngStyle]="{
+                    'background-color': i === paginaActual ? 'var(--main-color)' : '',
+                    'color': i === paginaActual ? 'white' : ''
+                  }"
+                  (click)="irPagina(i)">
+            {{ i + 1 }}
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="paginaActual + 1 === totalPaginas">
+          <button class="page-link btn" style="color: var(--main-color);" (click)="irPagina(paginaActual + 1)">
+            Siguiente &raquo;
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="btn btn-outline-danger mt-4" (click)="verMorosos()">Ver Morosos</button>
+
+    <!-- Mensaje si no hay morosos -->
+    <div *ngIf="mostrarMorosos && morosos.length === 0" class="mt-5 text-center">
+      <div class="alert alert-success" role="alert">
+        Ningún matriculado debe cuotas en este momento.
+      </div>
+    </div>
+
+
+    <div *ngIf="morosos.length > 0" class="mt-5">
+      <h5>Listado de Morosos</h5>
+      <div class="table-responsive shadow-sm">
+        <table class="table table-bordered text-center align-middle">
+          <thead class="table-danger">
+            <tr>
+              <th>Nombre</th>
+              <th>Matrícula</th>
+              <th>DNI</th>
+              <th>Teléfono</th>
+              <th>Email</th>
+              <th>Cuotas Impagas</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of morosos">
+              <td>{{ m.nombre }}</td>
+              <td>{{ m.matricula }}</td>
+              <td>{{ m.dni }}</td>
+              <td>{{ m.telefono }}</td>
+              <td>{{ m.email }}</td>
+              <td>{{ m.cuotasImpagas }}</td> <!-- 👈 Mostrar cantidad -->
+              <td>
+                <span class="badge" [ngClass]="m.habilitado ? 'bg-success' : 'bg-secondary'">
+                  {{ m.habilitado ? 'Habilitado' : 'Inhabilitado' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <!-- Paginador de morosos con estilo unificado -->
+      <nav *ngIf="totalPaginasMorosos > 1" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="paginaMorosos === 0">
+            <button class="page-link btn" style="color: var(--main-color);" (click)="irPaginaMorosos(paginaMorosos - 1)">
+              &laquo; Anterior
+            </button>
+          </li>
+          <li class="page-item"
+            *ngFor="let i of paginasVisiblesMorosos"
+            [class.active]="paginaMorosos === i">
+          <button class="page-link btn"
+                  [ngStyle]="{ 
+                    'background-color': paginaMorosos === i ? 'var(--main-color)' : '', 
+                    'color': paginaMorosos === i ? 'white' : '' 
+                  }"
+                  (click)="irPaginaMorosos(i)">
+            {{ i + 1 }}
+          </button>
+        </li>
+          <li class="page-item" [class.disabled]="paginaMorosos + 1 === totalPaginasMorosos">
+            <button class="page-link btn" style="color: var(--main-color);" (click)="irPaginaMorosos(paginaMorosos + 1)">
+              Siguiente &raquo;
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+</div>
+  

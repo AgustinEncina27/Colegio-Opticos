@@ -1,0 +1,17 @@
+<div *ngIf="noticia" class="mt-5 px-3 px-md-0" style="max-width: 800px; margin: auto;">
+  <h2 class="mb-2 text-dark fw-bold">{{ noticia.titulo }}</h2>
+  
+  <p class="text-muted mb-3">
+    Publicado el {{ noticia.fechaPublicacion | date:'dd/MM/yyyy HH:mm' }}
+  </p>
+
+  <img 
+    [src]="URL_BACKEND + noticia.imagenUrl" 
+    class="img-fluid rounded shadow-sm mb-4" 
+    (error)="onImageError($event)"
+    alt="Imagen de la noticia"
+    style="max-height: 400px; object-fit: contain; width: 100%; background-color: #f8f9fa;">
+
+  <p class="fs-5 text-dark" style="line-height: 1.7;">{{ noticia.descripcion }}</p>
+
+</div>

@@ -1,0 +1,20 @@
+# Ignorar variables de entorno
+.env
+
+# Ignorar configuraciones de IDE/metadata
+.metadata/
+*.iml
+
+# Ignorar archivo de logs y temporales
+*.log
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
+
+# Ignorar archivos de configuración locales opcionales
+docker-compose.override.yml
+
+# Si NO querés versionar configuraciones de Nginx locales
+nginx.conf
+nginx-1.conf

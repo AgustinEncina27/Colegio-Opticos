@@ -1,0 +1,61 @@
+<div class="container my-5" style="max-width: 1140px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-dark">Noticias</h2>
+    <button *ngIf="authService.hasRole('ADMIN')" class="btn crear"  routerLink="/noticias/nueva">
+      Crear nueva noticia
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let noticia of noticias">
+      <div class="card h-100 border-0 shadow rounded-3">
+        <img 
+        [src]="URL_BACKEND + noticia.imagenUrl" 
+        class="card-img-top rounded-top"
+        (error)="onImageError($event)"
+        alt="Imagen de noticia" 
+        style="width: 100%; height: 200px; object-fit: cover; background-color: #f0f0f0;">
+        
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-dark mb-2">{{ noticia.titulo }}</h5>
+          <p class="card-text text-muted flex-grow-1">{{ noticia.descripcion | slice:0:100 }}...</p>
+          
+          <a [routerLink]="['/noticias', noticia.id]" class="btn btn-sm btn-outline-primary mt-auto w-100">Ver más</a>
+          
+          <div *ngIf="authService.hasRole('ADMIN')" class="d-flex justify-content-between mt-2">
+            <button class="btn btn-sm btn-warning w-45" [routerLink]="['/noticias/editar', noticia.id]">Editar</button>
+            <button class="btn btn-sm btn-danger w-45" (click)="eliminar(noticia.id)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginador con estilo personalizado -->
+  <nav *ngIf="totalPages > 1" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="pagina === 0">
+        <button class="page-link btn" style="color: var(--main-color);" (click)="cambiarPagina(pagina - 1)">
+          &laquo; Anterior
+        </button>
+      </li>
+
+      <li class="page-item" *ngFor="let i of paginasVisibles" [class.active]="i === pagina">
+        <button class="page-link btn"
+                [ngStyle]="{
+                  'background-color': i === pagina ? 'var(--main-color)' : '',
+                  'color': i === pagina ? 'white' : ''
+                }"
+                (click)="cambiarPagina(i)">
+          {{ i + 1 }}
+        </button>
+      </li>
+
+      <li class="page-item" [class.disabled]="pagina + 1 === totalPages">
+        <button class="page-link btn" style="color: var(--main-color);" (click)="cambiarPagina(pagina + 1)">
+          Siguiente &raquo;
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

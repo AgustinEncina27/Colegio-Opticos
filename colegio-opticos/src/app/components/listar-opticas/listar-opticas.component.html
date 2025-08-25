@@ -1,0 +1,95 @@
+<div class="contenedor-opticas">
+  <h2>Ópticas Registradas</h2>
+
+  <div class="filtros">
+    <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Buscar por nombre..." 
+      [(ngModel)]="filtroNombre" 
+      (input)="buscarOpticas()" />
+    <button class="btn btn-outline-secondary" (click)="limpiarBusqueda()">Limpiar</button>
+  </div>
+
+  <button class="btn-agregar" (click)="registrar()" *ngIf="authService.hasRole('ADMIN')">Registrar Óptica</button>
+
+  <div class="tabla-responsive">
+    <table class="tabla-opticas">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th *ngIf="authService.hasRole('ADMIN')">Propietario</th>
+          <th *ngIf="authService.hasRole('ADMIN')">Óptico Técnico</th>
+          <th class="col-direccion">Dirección</th>
+          <th>Teléfono</th>
+          <th>Localidad</th>
+          <th>Código Postal</th>
+          <th>Contactología</th>
+          <th *ngIf="authService.hasRole('ADMIN')">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let optica of opticas">
+          <td>{{ optica.nombre }}</td>
+          <td *ngIf="authService.hasRole('ADMIN')">{{ optica.propietario }}</td>
+          <td *ngIf="authService.hasRole('ADMIN')">
+            {{ optica.nombreOpticoTecnico }} ({{ optica.matriculaOpticoTecnico }})
+          </td>
+          <td class="col-direccion" 
+              [title]="optica.direccion" 
+              data-bs-toggle="tooltip" 
+              data-bs-placement="top">
+            {{ optica.direccion }}
+          </td>
+          <td>{{ optica.telefono }}</td>
+          <td>{{ optica.nombreLocalidad }}</td>
+          <td>{{ optica.codigoPostal }}</td>
+          <td>
+            <ng-container *ngIf="authService.hasRole('ADMIN'); else soloTexto">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="optica.habilitadaParaContactologia"
+                  (change)="cambiarEstadoContactologia(optica)"
+                />
+                <span class="slider round"></span>
+              </label>
+            </ng-container>
+            <ng-template #soloTexto>
+              {{ optica.habilitadaParaContactologia ? 'Sí' : 'No' }}
+            </ng-template>
+          </td>
+          <td *ngIf="authService.hasRole('ADMIN')">
+            <button class="btn-accion btn-sm editar mb-1" (click)="editar(optica.id!)">Editar</button>
+            <button class="btn-accion btn-sm eliminar" (click)="eliminar(optica.id!)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <nav *ngIf="totalPages > 1" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="pagina === 0">
+        <button class="page-link btn" (click)="cambiarPagina(pagina - 1)">
+          &laquo; Anterior
+        </button>
+      </li>
+      <li class="page-item" *ngFor="let i of paginasVisibles" [class.active]="i === pagina">
+        <button class="page-link btn"
+                [ngStyle]="{
+                  'background-color': i === pagina ? 'var(--main-color)' : '',
+                  'color': i === pagina ? 'white' : ''
+                }"
+                (click)="cambiarPagina(i)">
+          {{ i + 1 }}
+        </button>
+      </li>
+      <li class="page-item" [class.disabled]="pagina + 1 === totalPages">
+        <button class="page-link btn" (click)="cambiarPagina(pagina + 1)">
+          Siguiente &raquo;
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

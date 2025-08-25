@@ -1,0 +1,70 @@
+<!-- Header superior: redes sociales + sesión -->
+<nav class="navbar p-0 navbar-social d-flex flex-wrap">
+  <a class="btn btn-outline-primary col rounded-0 navbar-item headerA d-flex align-items-center justify-content-center boton"
+     href="https://www.facebook.com/colegiodeopticosdemisiones" target="_blank">
+    <img src="/assets/iconos/facebook.svg" class="iconos" alt="Facebook">
+  </a>
+
+  <a class="btn btn-outline-primary col rounded-0 navbar-item headerA d-flex align-items-center justify-content-center boton"
+     href="https://www.instagram.com/colegiodeopticosdemisiones/" target="_blank">
+    <img src="/assets/iconos/instagram.svg" class="iconos" alt="Instagram">
+  </a>
+
+  <a class="btn btn-outline-primary col rounded-0 navbar-item headerA d-flex align-items-center justify-content-center boton"
+     href="https://wa.me/+5493765108396" target="_blank">
+    <img src="/assets/iconos/telephone.svg" class="iconos me-1" alt="Teléfono">+54 9 3765-108396
+  </a>
+
+  <div class="col" *ngIf="!authService.isAuthenticated()">
+    <a [routerLink]="['/login']" class="btn btn-outline-primary rounded-0 col-12 navbar-item headerA d-flex align-items-center justify-content-center ">
+      INICIAR SESIÓN
+    </a>
+  </div>
+
+  <div class="dropdown col-12 col-md-auto" *ngIf="authService.isAuthenticated()">
+    <a
+      class="btn btn-outline-primary dropdown-toggle w-100 rounded-0 headerA d-flex align-items-center justify-content-center"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      HOLA {{ authService.user.nombre }}
+    </a>
+    <ul class="dropdown-menu w-100 text-center">
+      <li>
+        <a (click)="longOut()" class="dropdown-item cerrarSesion">Cerrar Sesión</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Navbar principal -->
+<nav class="navbar navbar2 p-3 navbar-expand-lg bg-transparent text-body d-flex justify-content-between align-items-center flex-wrap">
+  <a class="navbar-brand m-1" [routerLink]="['/inicio']">
+    <img src="/assets/logo.png" alt="Logo Colegio" width="180" height="180">
+  </a>
+
+  <button class="navbar-toggler m-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse m-1" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0 centrar-horizontalmente d-flex align-items-stretch">
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/inicio']">INICIO</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/noticias']">NOTICIAS</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/institucional']">INSTITUCIONAL</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/requisitos']">REQUISITOS PARA HABILITACIÓN</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/opticas']">ÓPTICAS HABILITADAS</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/mi-perfil']" *ngIf="authService.hasRole('MATRICULADO')">MI PERFIL</a></li>
+      <li class="nav-item"><a class="nav-link"   [routerLink]="['/administrar-pagos']" *ngIf="authService.hasRole('ADMIN')">ADMINISTRACIÓN DE PAGOS</a></li>
+      <li class="nav-item"><a class="nav-link" [routerLink]="['/gestion-matriculados']" *ngIf="authService.hasRole('ADMIN')">GESTIÓN DE MATRICULADOS</a>
+      </li>
+    </ul>
+  </div>
+
+  <a id="botonImagen" class="btn btn-outline-primary btn-lg rounded m-1 d-flex align-items-center gap-2"
+     href="https://wa.me/+5493765108396" target="_blank">
+    <img src="/assets/iconos/whatsapp.svg" alt="WhatsApp">Whatsapp
+  </a>
+</nav>

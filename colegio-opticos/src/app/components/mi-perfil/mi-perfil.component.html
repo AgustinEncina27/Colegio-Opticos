@@ -1,0 +1,115 @@
+<div class="container my-5 perfil-container">
+
+  <!-- Información del Matriculado -->
+  <div class="card shadow border-0 mb-5">
+    <div class="card-header text-white" style="background-color: var(--main-color);">
+      <h5 class="mb-0">Información del Matriculado</h5>
+    </div>
+    <div class="card-body bg-light">
+      <div class="row mb-3">
+        <div class="col-md-6"><strong>Nombre:</strong> {{ matriculado?.nombre }}</div>
+        <div class="col-md-6"><strong>Matrícula:</strong> {{ matriculado?.matricula }}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6"><strong>DNI:</strong> {{ matriculado?.dni }}</div>
+        <div class="col-md-6"><strong>Teléfono:</strong> {{ matriculado?.telefono }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6"><strong>Fecha de Registro:</strong> {{ matriculado?.fechaRegistro | date:'dd/MM/yyyy' }}</div>
+        <div class="col-md-6"><strong>Email:</strong> {{ matriculado?.email }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Advertencias -->
+  <div *ngIf="tieneCuotasPendientesOVencidas || tieneTresCuotasImpagas" class="mt-4">
+    <div *ngIf="tieneCuotasPendientesOVencidas" class="alert alert-warning d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      Tenés cuotas pendientes o vencidas. Recordá mantenerte al día con tus pagos.
+    </div>
+    <div *ngIf="tieneTresCuotasImpagas" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-octagon-fill me-2"></i>
+      Advertencia: Tenés 3 o más cuotas impagas. Tu matrícula podría ser suspendida si no regularizás tu situación.
+    </div>
+  </div>
+
+  <!-- Sección de Cuotas -->
+  <div class="title-section mb-4">
+    <h2>MIS CUOTAS</h2>
+  </div>
+
+  <div class="table-responsive shadow-sm">
+    <table class="table table-hover text-center align-middle bg-white border">
+      <thead style="background-color: var(--main-color); color: white;">
+        <tr>
+          <th>Periodo</th>
+          <th>Monto</th>
+          <th>Fecha de Pago</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cuota of cuotas">
+          <td><strong>{{ cuota.periodo }}</strong></td>
+          <td>${{ cuota.monto }}</td>
+          <td>{{ cuota.fechaPago ? (cuota.fechaPago | date: 'dd/MM/yyyy') : '-' }}</td>
+          <td>
+            <span class="badge rounded-pill px-3 py-2 me-2"
+              [ngClass]="{
+                'bg-success': cuota.estado === 'PAGADA',
+                'bg-danger': cuota.estado === 'VENCIDA',
+                'bg-warning text-dark': cuota.estado === 'PENDIENTE'
+              }">
+              {{ cuota.estado }}
+            </span>
+          </td>
+          <td><button *ngIf="cuota.estado === 'PAGADA'" class="btn btn-sm btn-primary rounded-pill" title="Descargar Comprobante"
+                    (click)="descargarComprobante(cuota.id)">
+              <img src="assets/iconos/descargar_pdf.ico" alt="Descargar" width="20" height="20" />
+              </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginador -->
+  <nav *ngIf="totalPages > 1" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <button class="page-link btn" style="color: var(--main-color);" (click)="loadCuotas(currentPage - 1)">
+          &laquo; Anterior
+        </button>
+      </li>
+      <li class="page-item"
+          *ngFor="let page of paginationRange"
+          [class.active]="page === currentPage">
+        <button class="page-link btn" [ngStyle]="{ 'background-color': page === currentPage ? 'var(--main-color)' : '', 'color': page === currentPage ? 'white' : '' }"
+                (click)="loadCuotas(page)">
+          {{ page + 1 }}
+        </button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+        <button class="page-link btn" style="color: var(--main-color);" (click)="loadCuotas(currentPage + 1)">
+          Siguiente &raquo;
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  
+
+  <!-- Datos de transferencia -->
+  <div class="alert alert-light text-center mt-5 p-4 shadow-sm border" style="max-width: 650px; margin: auto;">
+    <div class="title-section mb-3">
+      <h2>Datos para realizar la transferencia</h2>
+    </div>
+    <p><strong>Banco:</strong> Nación</p>
+    <p><strong>CBU:</strong> <code>0110407740040753460212</code></p>
+    <p><strong>Razón Social:</strong> Colegio de Ópticos de la Pcia. de Misiones</p>
+    <p><strong>CUIT:</strong> 30-68324487-9</p>
+    <p><strong>Alias:</strong> <code>COLEGIO.OPTICOS</code></p>
+  </div>
+
+</div>

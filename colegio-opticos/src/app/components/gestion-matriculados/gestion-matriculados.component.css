@@ -1,0 +1,11 @@
+.page-link.btn {
+    border: none;
+    margin: 0 2px;
+    transition: 0.3s ease;
+  }
+  
+  .page-link.btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--hover-text);
+  }
+  

@@ -1,0 +1,42 @@
+.perfil-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.cvu-box {
+  font-size: 1.1rem;
+  color: #333;
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.title-section {
+  text-align: center;
+}
+
+.title-section h2 {
+  color: var(--main-color);
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 0.9rem;
+}
+
+.page-link.btn {
+  border: none;
+  margin: 0 2px;
+  transition: 0.3s ease;
+}
+
+.page-link.btn:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-text);
+}
