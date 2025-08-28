@@ -128,7 +128,7 @@
 			<text><![CDATA[Fecha:]]></text>
 			<box rightPadding="4"/>
 		</element>
-		<element kind="textField" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979" x="465" y="10" width="84" height="20" pattern="MMMM d, yyyy">
+		<element kind="textField" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979" x="465" y="10" width="84" height="20" pattern="dd/MM/yyyy">
 			<expression><![CDATA[new java.util.Date()]]></expression>
 		</element>
 		<element kind="image"  x="-20" y="-20" width="125" height="120" hImageAlign="Center">
