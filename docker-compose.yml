@@ -3,7 +3,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./colegio-opticos
     ports:
       - "80"
     depends_on:
@@ -12,7 +12,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./colegiocuotas
     environment:
       CUOTA_MONTO_MENSUAL: ${CUOTA_MONTO_MENSUAL}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
@@ -35,7 +35,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certs:/etc/letsencrypt:ro
       - ./certs/www:/var/www/certbot:ro
-      - ./frontend/dist/optica-app:/usr/share/nginx/html
+      - ./frontend/dist/colegio-opticos:/usr/share/nginx/html
     depends_on:
       - frontend
       - backend

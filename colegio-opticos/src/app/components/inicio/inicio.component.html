@@ -26,33 +26,40 @@
     </div>
   </div>
 
+  <!-- Carrusel Patrocinadores (Bootstrap 5.3.7) -->
   <div class="patrocinadores-carousel-container my-5">
-    <h2 class="text-center">PATROCINADORES</h2>
-    <div id="patrocinadoresCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner d-flex align-items-center">
+    <h2 class="text-center mb-4">PATROCINADORES</h2>
+
+    <div id="patrocinadoresCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+      <!-- Indicadores (opcional) -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#patrocinadoresCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#patrocinadoresCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      </div>
+
+      <div class="carousel-inner">
         <div class="carousel-item active">
-          <div class="d-flex justify-content-center gap-4 flex-wrap">
-            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo" alt="Patrocinador 1">
-            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo" alt="Patrocinador 2">
-            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo" alt="Patrocinador 3">
+          <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
+            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo img-fluid" alt="Patrocinador 1">
+            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo img-fluid" alt="Patrocinador 2">
+            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo img-fluid" alt="Patrocinador 3">
           </div>
         </div>
+
         <div class="carousel-item">
-          <div class="d-flex justify-content-center gap-4 flex-wrap">
-            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo" alt="Patrocinador 4">
-            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo" alt="Patrocinador 5">
-            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo" alt="Patrocinador 6">
+          <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
+            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo img-fluid" alt="Patrocinador 4">
+            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo img-fluid" alt="Patrocinador 5">
+            <img src="/assets/patrocinadores/anuncio.png" class="patrocinador-logo img-fluid" alt="Patrocinador 6">
           </div>
         </div>
       </div>
-  
-      <!-- Botón anterior -->
+
+      <!-- Controles -->
       <button class="carousel-control-prev" type="button" data-bs-target="#patrocinadoresCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Anterior</span>
       </button>
-  
-      <!-- Botón siguiente -->
       <button class="carousel-control-next" type="button" data-bs-target="#patrocinadoresCarousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Siguiente</span>

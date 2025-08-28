@@ -20,7 +20,7 @@
   position: absolute;
   inset: 0;
   background-color: rgba(255, 255, 255, 0.9); /* Capa blanca semitransparente */
-  z-index: 1;
+  z-index: 0;
 }
 
 .seccion-publicidad > * {
@@ -90,6 +90,8 @@ h2 {
   max-width: 960px;
   margin: 0 auto;
   padding-top: 3rem;
+  position: relative;
+  z-index: 1; /* encima del overlay */
 }
 
 .patrocinador-logo {
@@ -111,6 +113,33 @@ h2 {
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#patrocinadoresCarousel {
+  position: relative;
+  z-index: 3; /* más alto que el ::before */
+}
+
+/* Forzar orden de capas para que la animación no se vaya atrás */
+#patrocinadoresCarousel .carousel-inner {
+  overflow: hidden;
+}
+#patrocinadoresCarousel .carousel-item {
+  position: relative;
+  z-index: 3;
+}
+#patrocinadoresCarousel .carousel-item.active {
+  z-index: 5;
+}
+#patrocinadoresCarousel .carousel-item-next,
+#patrocinadoresCarousel .carousel-item-prev {
+  z-index: 4;
+}
+
+/* Controles visibles y arriba */
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 5;
 }
 
 .carousel-control-prev-icon,

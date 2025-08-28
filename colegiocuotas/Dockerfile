@@ -1,27 +1,24 @@
-# 🛠 Etapa de construcción
+# 🛠 Etapa de build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
-
 WORKDIR /app
 
-# Copiamos solo pom.xml y descargamos dependencias (mejor caché)
+# Mejor caché: primero pom y dependencias
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN mvn -B -q dependency:go-offline
 
-# Ahora copiamos el resto del código
+# Código
 COPY src ./src
 
-# Construimos el proyecto
-RUN mvn clean package -DskipTests
+# Build
+RUN mvn -B -q clean package -DskipTests
 
-# 🚀 Etapa de ejecución con slim-buster
-FROM eclipse-temurin:17-jre-slim-buster
+# 🚀 Etapa de runtime (Ubuntu 22.04 'jammy')
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
-
 EXPOSE 8080
 
-# Copiamos el JAR desde la etapa de build
-COPY --from=build /app/target/spring-boot-backend-optica-0.0.1-SNAPSHOT.jar app.jar
+# Copiamos el JAR
+COPY --from=build /app/target/colegiocuotas-0.0.1-SNAPSHOT.jar app.jar
 
-# Ejecutamos la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
