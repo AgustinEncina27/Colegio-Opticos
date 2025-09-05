@@ -94,6 +94,7 @@ public class MatriculadoService {
                 .dni(request.getDni())
                 .telefono(request.getTelefono())
                 .fechaRegistro(LocalDate.now())
+                .pagoAprobado(request.isPagoAprobado())
                 .usuario(usuario)
                 .build();
 
@@ -130,6 +131,7 @@ public class MatriculadoService {
         m.setNombre(request.getNombre());
         m.setDni(request.getDni());
         m.setTelefono(request.getTelefono());
+        m.setPagoAprobado(request.isPagoAprobado());
 
         Usuario usuario = m.getUsuario();
         usuario.setEmail(request.getEmail());

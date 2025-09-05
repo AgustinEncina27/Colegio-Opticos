@@ -16,5 +16,6 @@ public class MatriculadoDTO {
     private LocalDate fechaRegistro;
     private String email;
     private boolean habilitado;
+    private boolean pagoAprobado;
     private int cuotasImpagas;
 }

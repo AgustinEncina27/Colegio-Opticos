@@ -19,6 +19,7 @@ public class MatriculadoMapper {
             .fechaRegistro(m.getFechaRegistro())
             .email(m.getUsuario().getEmail())
             .habilitado(m.getUsuario().isHabilitado())
+            .pagoAprobado(m.isPagoAprobado())
             .build();
     }
     
@@ -34,6 +35,7 @@ public class MatriculadoMapper {
                 .email(u.getEmail())
                 .username(u.getUsername())
                 .passwordPlano(passwordPlano)
+                .pagoAprobado(m.isPagoAprobado())
                 .build();
     }
 }

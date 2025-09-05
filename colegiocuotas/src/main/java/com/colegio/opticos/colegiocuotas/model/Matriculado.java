@@ -23,6 +23,9 @@ public class Matriculado {
     private String dni;
     private String telefono;
     private LocalDate fechaRegistro;
+    
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean pagoAprobado;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "usuario_id")

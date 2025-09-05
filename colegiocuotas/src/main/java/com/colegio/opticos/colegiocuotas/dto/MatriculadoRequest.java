@@ -12,5 +12,6 @@ public class MatriculadoRequest {
     private String telefono;
     private String email;      
     private String password;    
-    private boolean habilitado; 
+    private boolean habilitado;
+    private boolean pagoAprobado;
 }

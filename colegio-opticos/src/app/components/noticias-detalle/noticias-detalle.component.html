@@ -6,12 +6,14 @@
   </p>
 
   <img 
-    [src]="URL_BACKEND + noticia.imagenUrl" 
+    [src]="URL_BACKEND + '/api/noticias/uploads/' + noticia.imagenUrl"
     class="img-fluid rounded shadow-sm mb-4" 
     (error)="onImageError($event)"
     alt="Imagen de la noticia"
     style="max-height: 400px; object-fit: contain; width: 100%; background-color: #f8f9fa;">
 
-  <p class="fs-5 text-dark" style="line-height: 1.7;">{{ noticia.descripcion }}</p>
+    <p class="fs-5 text-dark" style="line-height: 1.7; white-space: pre-line;">
+      {{ noticia.descripcion }}
+    </p>
 
 </div>

@@ -38,7 +38,7 @@ export class NoticiasFormComponent {
         this.titulo = noticia.titulo;
         this.descripcion = noticia.descripcion;
         this.imagenNombre = noticia.imagenUrl;
-        this.vistaPrevia = `${this.URL_BACKEND}${noticia.imagenUrl}`;
+        this.vistaPrevia = `${this.URL_BACKEND}/api/noticias/uploads/${noticia.imagenUrl}`;
       });
     }
   }
@@ -117,7 +117,7 @@ export class NoticiasFormComponent {
     if (!this.modoEditar) {
       payload.autorId = this.authService.user.id;
     }
-
+    
     const mensaje = this.modoEditar ? 'actualizada' : 'creada';
 
     const observable = this.modoEditar && this.noticiaId

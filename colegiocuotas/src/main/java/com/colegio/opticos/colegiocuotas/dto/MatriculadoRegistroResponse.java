@@ -16,5 +16,6 @@ public class MatriculadoRegistroResponse {
     private LocalDate fechaRegistro;
     private String email;
     private String username ;
+    private boolean pagoAprobado;
     private String passwordPlano; // contraseña original
 }

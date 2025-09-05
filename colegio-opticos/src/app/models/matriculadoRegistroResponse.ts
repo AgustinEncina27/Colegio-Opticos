@@ -7,5 +7,6 @@ export interface MatriculadoRegistroResponse {
     email: string;
     passwordPlano: string;
     username: string;
+    pagoAprobado?: boolean;
   }
   

@@ -69,7 +69,7 @@ export class AdministracionPagosComponent {
   confirmarPagosSeleccionados(): void {
     Swal.fire({
       title: '¿Confirmar pagos?',
-      text: `Se marcarán ${this.cuotasSeleccionadas.length} cuota(s) como pagadas.`,
+      text: `Se marcarán cuota(s) como pagadas.`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sí, confirmar',

@@ -110,11 +110,13 @@ public class CuotaService {
     
     @Scheduled(cron = "0 5 0 1 * *")
     public void generarCuotasMensuales() {
-    	log.info("🔄 Generando cuotas para el mes {}", YearMonth.now());
-        List<Matriculado> matriculados = matriculadoRepository.findAll();
         YearMonth mesAProcesar = YearMonth.now();
-        YearMonth mesAnterior = mesAProcesar.minusMonths(1);
-        LocalDate vencimiento = mesAProcesar.atDay(10);
+        YearMonth mesAnterior   = mesAProcesar.minusMonths(1);
+        LocalDate vencimiento   = mesAProcesar.atDay(10);
+
+        log.info("🔄 Generando cuotas para el mes {}", mesAProcesar);
+
+        List<Matriculado> matriculados = matriculadoRepository.findAll();
 
         for (Matriculado m : matriculados) {
 
@@ -132,17 +134,30 @@ public class CuotaService {
             }
 
             // Evitar duplicados
-            if (cuotaRepository.existsByMatriculadoAndPeriodo(m, mesAProcesar)) continue;
+            if (cuotaRepository.existsByMatriculadoAndPeriodo(m, mesAProcesar)) {
+                continue;
+            }
+
+            // 👇 Lógica nueva: si el matriculado tiene pagoAprobado => crear cuota PAGADA
+            boolean pagoAprobado = m.isPagoAprobado();
+            EstadoCuota estado   = pagoAprobado ? EstadoCuota.PAGADA : EstadoCuota.PENDIENTE;
+            LocalDate fechaPago  = pagoAprobado ? LocalDate.now() : null;
 
             Cuota cuota = Cuota.builder()
                     .matriculado(m)
-                    .monto(montoMensual) // constante definida en la clase
+                    .monto(montoMensual)             // BigDecimal definido en tu clase
                     .fechaVencimiento(vencimiento)
+                    .fechaPago(fechaPago)            // 👈 solo si está pagada
                     .periodo(mesAProcesar)
-                    .estado(EstadoCuota.PENDIENTE)
+                    .estado(estado)                  // 👈 set según pagoAprobado
                     .build();
 
             cuotaRepository.save(cuota);
+
+            if (pagoAprobado) {
+                log.info("✅ Cuota {} marcada como PAGADA para matriculado {} (matr. {}).",
+                        cuota.getId(), m.getNombre(), m.getMatricula());
+            }
         }
     }
     

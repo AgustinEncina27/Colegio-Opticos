@@ -22,16 +22,13 @@ public class NoticiaService {
     private final NoticiaMapper noticiaMapper;
     private final ImagenService imagenService;
 
-    private static final String BASE_URL = "/api/noticias/uploads/";
 
     public Page<NoticiaDTO> obtenerNoticias(Pageable pageable) {
         return noticiaRepository.findAll(pageable).map(noticia -> {
             NoticiaDTO dto = noticiaMapper.toDTO(noticia);
             if (dto.getImagenUrl() == null || dto.getImagenUrl().isBlank()) {
-                dto.setImagenUrl(BASE_URL + "default.jpg");
-            } else {
-                dto.setImagenUrl(BASE_URL + dto.getImagenUrl());
-            }
+                dto.setImagenUrl("default.jpg");
+            } 
             return dto;
         });
     }
@@ -40,10 +37,8 @@ public class NoticiaService {
         return noticiaRepository.findById(id).map(noticia -> {
             NoticiaDTO dto = noticiaMapper.toDTO(noticia);
             if (dto.getImagenUrl() == null || dto.getImagenUrl().isBlank()) {
-                dto.setImagenUrl(BASE_URL + "default.jpg");
-            } else {
-                dto.setImagenUrl(BASE_URL + dto.getImagenUrl());
-            }
+                dto.setImagenUrl("default.jpg");
+            } 
             return dto;
         });
     }
@@ -69,9 +64,11 @@ public class NoticiaService {
 
         noticia.setTitulo(titulo);
         noticia.setDescripcion(descripcion);
-        imagenService.eliminar(noticia.getImagenUrl());
-        noticia.setImagenUrl(nuevaImagenNombre);
-
+        if(!noticia.getImagenUrl().contains(nuevaImagenNombre)){
+        	imagenService.eliminar(noticia.getImagenUrl());
+            noticia.setImagenUrl(nuevaImagenNombre);
+        }
+        
         return noticiaRepository.save(noticia);
     }
 

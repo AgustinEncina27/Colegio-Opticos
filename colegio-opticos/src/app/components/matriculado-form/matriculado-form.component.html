@@ -21,12 +21,33 @@
 
         <div class="col-md-6 mb-3">
           <label for="email">Email</label>
-          <input type="email" id="email" class="form-control" formControlName="email">
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control" 
+            formControlName="email"
+            [ngClass]="{'is-invalid': form.get('email')?.invalid && form.get('email')?.touched}">
+          
+          <!-- Mensaje de error -->
+          <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="invalid-feedback">
+            <span *ngIf="form.get('email')?.errors?.['email']">Debe ingresar un email válido (ejemplo@correo.com).</span>
+          </div>
         </div>
 
         <div class="col-12 mb-3 form-check d-flex align-items-center">
           <input class="form-check-input me-2" type="checkbox" formControlName="habilitado" id="habilitado">
           <label class="form-check-label" for="habilitado">Habilitado</label>
+        </div>
+
+        <div class="col-12 mb-3 form-check d-flex align-items-start">
+          <input class="form-check-input me-2 mt-1" type="checkbox" formControlName="pagoAprobado" id="pagoAprobado">
+          <label class="form-check-label" for="pagoAprobado">
+            Generar cuotas como <strong>PAGADAS</strong>.
+            <div class="form-text">
+              Si lo activás, las próximas cuotas automáticas se crearán con estado <code>PAGADA</code>.
+              (No cambia el estado de cuotas ya creadas.)
+            </div>
+          </label>
         </div>
       </div>
 

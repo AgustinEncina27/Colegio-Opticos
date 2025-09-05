@@ -16,8 +16,10 @@ public class Noticia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String titulo;
-
+    
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     private LocalDateTime fechaPublicacion;

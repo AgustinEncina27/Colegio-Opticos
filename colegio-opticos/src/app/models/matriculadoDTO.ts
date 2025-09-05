@@ -9,4 +9,5 @@ export interface MatriculadoDTO {
     email: string;
     habilitado: boolean;
     cuotasImpagas: number;
+    pagoAprobado: boolean;
   }

@@ -10,17 +10,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./gestion-matriculados.component.css']
 })
 export class GestionMatriculadosComponent {
-
-  matriculados: MatriculadoDTO[] = [];
+  matriculados: MatriculadoDTO[] = [];              // lista paginada desde backend
+  matriculadosFiltrados: MatriculadoDTO[] = [];     // resultados de /buscarMatriculados
   paginaActual: number = 0;
   tamanioPagina: number = 10;
   totalItems: number = 0;
-  filtro: string = '';
-  mostrarForm: boolean = false;
-  matriculadoSeleccionado?: MatriculadoDTO;
-  matriculadosFiltrados: MatriculadoDTO[] = []; // Lista filtrada
 
-
+  filtro = '';
+  filtroAplicado: string | null = null;  // null => sin filtro aplicado
+  // texto de búsqueda
+  loading = false;
 
   constructor(
     private matriculadoService: MatriculadoService,
@@ -35,49 +34,65 @@ export class GestionMatriculadosComponent {
     this.matriculadoService.listarTodosPaginado(this.paginaActual, this.tamanioPagina).subscribe({
       next: data => {
         this.matriculados = data.content;
-        this.matriculadosFiltrados = data.content; 
         this.totalItems = data.totalElements;
       },
       error: err => console.error('Error al cargar matriculados', err)
     });
   }
 
-  get matriculadosPaginados(): MatriculadoDTO[] {
-    return this.matriculados;
+  // 👇 usar este getter en la tabla
+  get listaRender(): MatriculadoDTO[] {
+    return this.tieneFiltroActivo ? this.matriculadosFiltrados : this.matriculados;
   }
 
   get totalPaginas(): number {
     return Math.ceil(this.totalItems / this.tamanioPagina);
   }
 
-  get matriculadosFiltrados2(): MatriculadoDTO[] {
-    return this.matriculados.filter(m =>
-      m.nombre.toLowerCase().includes(this.filtro.toLowerCase()) ||
-      m.dni.includes(this.filtro) ||
-      m.matricula.toString().includes(this.filtro)
-    );
+  get tieneFiltroActivo(): boolean {
+    return this.filtroAplicado !== null;
   }
 
   irPagina(nuevaPagina: number): void {
+    if (this.tieneFiltroActivo) return; // con filtro, no paginamos
     this.paginaActual = nuevaPagina;
-    this.filtro.trim().length > 0 ? this.buscarMatriculados() : this.cargarMatriculados();
+    this.cargarMatriculados();
   }
 
-  // ✅ Filtrar localmente sin ir al backend
+  /** 🔎 Buscar SOLO al hacer clic */
   buscarMatriculados(): void {
-    const texto = this.filtro.trim().toLowerCase();
+    const texto = this.filtro.trim();
+    if (!texto) { this.limpiarFiltro(); return; }
 
-    if (texto.length === 0) {
-      this.matriculadosFiltrados = this.matriculados;
-      return;
-    }
-
-    this.matriculadosFiltrados = this.matriculados.filter(m =>
-      m.nombre.toLowerCase().includes(texto) ||
-      m.dni.includes(texto) ||
-      m.matricula.toString().includes(texto)
-    );
+    this.loading = true;
+    this.matriculadoService.buscarMatriculados(texto).subscribe({
+      next: (resp) => {
+        this.matriculadosFiltrados = resp;
+        this.filtroAplicado = texto;   // ← ahora el filtro queda “aplicado”
+        this.loading = false;
+      },
+      error: (e) => {
+        console.error(e);
+        this.matriculadosFiltrados = [];
+        this.filtroAplicado = texto;   // filtro aplicado, pero sin resultados
+        this.loading = false;
+      }
+    });
   }
+
+  /** 🧹 Limpiar filtro y volver a la lista paginada */
+  limpiarFiltro(): void {
+    this.filtro = '';
+    this.filtroAplicado = null;
+    this.matriculadosFiltrados = [];
+    this.paginaActual = 0;
+    this.cargarMatriculados();
+  }
+
+  // ---- acciones existentes ----
+  nuevo(): void { this.router.navigate(['/matriculados/nuevo']); }
+
+  editar(m: MatriculadoDTO): void { this.router.navigate(['/matriculados/editar', m.id]); }
 
   darDeBaja(id: number): void {
     Swal.fire({
@@ -92,14 +107,8 @@ export class GestionMatriculadosComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.matriculadoService.darDeBaja(id).subscribe({
-          next: () => {
-            this.cargarMatriculados(); // ✅ Recargar lista después de baja
-            Swal.fire('¡Usuario Deshabilitado!', 'El matriculado fue dado de baja.', 'success');
-          },
-          error: err => {
-            console.error('Error al dar de baja', err);
-            Swal.fire('Error', 'No se pudo dar de baja al matriculado.', 'error');
-          }
+          next: () => { this.cargarMatriculados(); Swal.fire('¡Usuario Deshabilitado!', 'El matriculado fue dado de baja.', 'success'); },
+          error: err => { console.error('Error al dar de baja', err); Swal.fire('Error', 'No se pudo dar de baja al matriculado.', 'error'); }
         });
       }
     });
@@ -117,25 +126,11 @@ export class GestionMatriculadosComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.matriculadoService.darDeAlta(id).subscribe({
-          next: () => {
-            this.cargarMatriculados(); // ✅ Recargar lista
-            Swal.fire('¡Habilitado!', 'El matriculado fue dado de alta.', 'success');
-          },
-          error: err => {
-            console.error('Error al dar de alta', err);
-            Swal.fire('Error', 'No se pudo habilitar al matriculado.', 'error');
-          }
+          next: () => { this.cargarMatriculados(); Swal.fire('¡Habilitado!', 'El matriculado fue dado de alta.', 'success'); },
+          error: err => { console.error('Error al dar de alta', err); Swal.fire('Error', 'No se pudo habilitar al matriculado.', 'error'); }
         });
       }
     });
-  }
-
-  nuevo(): void {
-    this.router.navigate(['/matriculados/nuevo']);
-  }
-
-  editar(m: MatriculadoDTO): void {
-    this.router.navigate(['/matriculados/editar', m.id]);
   }
 
   eliminarDefinitivo(id: number): void {
@@ -151,14 +146,8 @@ export class GestionMatriculadosComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.matriculadoService.eliminarDefinitivo(id).subscribe({
-          next: () => {
-            this.cargarMatriculados(); // ✅ Recargar lista
-            Swal.fire('¡Eliminado!', 'El matriculado fue eliminado del sistema.', 'success');
-          },
-          error: err => {
-            console.error('Error al eliminar definitivamente', err);
-            Swal.fire('Error', 'No se pudo eliminar al matriculado.', 'error');
-          }
+          next: () => { this.cargarMatriculados(); Swal.fire('¡Eliminado!', 'El matriculado fue eliminado del sistema.', 'success'); },
+          error: err => { console.error('Error al eliminar definitivamente', err); Swal.fire('Error', 'No se pudo eliminar al matriculado.', 'error'); }
         });
       }
     });
@@ -168,21 +157,17 @@ export class GestionMatriculadosComponent {
     const total = this.totalPaginas;
     const actual = this.paginaActual;
     const maxVisibles = 5;
-  
+
     let inicio = Math.max(0, actual - Math.floor(maxVisibles / 2));
     let fin = inicio + maxVisibles;
-  
+
     if (fin > total) {
       fin = total;
       inicio = Math.max(0, fin - maxVisibles);
     }
-  
+
     const paginas: number[] = [];
-    for (let i = inicio; i < fin; i++) {
-      paginas.push(i);
-    }
-  
+    for (let i = inicio; i < fin; i++) paginas.push(i);
     return paginas;
   }
-
 }

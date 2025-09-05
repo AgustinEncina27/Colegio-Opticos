@@ -34,7 +34,8 @@ export class MatriculadoFormComponent {
       dni: [''],
       telefono: [''],
       email: ['', Validators.email],
-      habilitado: [true]
+      habilitado: [true],
+      pagoAprobado: [false]
     });
 
     if (this.esEdicion && this.id) {

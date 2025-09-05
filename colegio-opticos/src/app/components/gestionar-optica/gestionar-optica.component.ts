@@ -153,7 +153,7 @@ export class GestionarOpticaComponent implements OnInit {
             title: 'Éxito',
             text: 'Óptica editada correctamente',
             confirmButtonColor: '#759065'
-          }).then(() => this.router.navigate(['/admin/opticas']));
+          }).then(() => this.router.navigate(['/opticas']));
         },
         error: err => {
           Swal.fire({
@@ -173,7 +173,7 @@ export class GestionarOpticaComponent implements OnInit {
             title: 'Éxito',
             text: 'Óptica registrada correctamente',
             confirmButtonColor: '#759065'
-          }).then(() => this.router.navigate(['/admin/opticas']));
+          }).then(() => this.router.navigate(['/opticas']));
         },
         error: err => {
           Swal.fire({
@@ -189,6 +189,6 @@ export class GestionarOpticaComponent implements OnInit {
   }
 
   cancelar(): void {
-    this.router.navigate(['/admin/opticas']);
+    this.router.navigate(['/opticas']);
   }
 }

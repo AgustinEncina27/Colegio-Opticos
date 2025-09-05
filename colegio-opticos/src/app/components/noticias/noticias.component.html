@@ -10,7 +10,7 @@
     <div class="col-md-6 col-lg-4 mb-4" *ngFor="let noticia of noticias">
       <div class="card h-100 border-0 shadow rounded-3">
         <img 
-        [src]="URL_BACKEND + noticia.imagenUrl" 
+        [src]="URL_BACKEND + '/api/noticias/uploads/' + noticia.imagenUrl"
         class="card-img-top rounded-top"
         (error)="onImageError($event)"
         alt="Imagen de noticia" 
