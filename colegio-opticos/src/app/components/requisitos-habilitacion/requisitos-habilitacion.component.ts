@@ -27,7 +27,8 @@ export class RequisitosHabilitacionComponent {
     { titulo: 'REQUISITOS PARA LA SOLICITUD DE MATRÍCULA', archivo: 'REQUISITOS PARA LA SOLICITUD DE MATRÍCULA.pdf' },
     { titulo: 'REQUISITOS PARA TALLERES DE ARMADO', archivo: 'REQUISITOS PARA TALLERES DE ARMADO.pdf' },
     { titulo: 'REQUISITOS PARA TRASLADO DE ÓPTICA', archivo: 'REQUISITOS PARA TRASLADO DE ÓPTICA.pdf' },
-    { titulo: 'REQUISITOS SUSPENSION DE MATRICULA', archivo: 'REQUISITOS SUSPENSION DE MATRICULA.pdf' }
+    { titulo: 'CÓDIGO DE ÉTICA', archivo: 'CODIGO DE ETICA.pdf' },
+    { titulo: 'REGLAMENTO INTERNO', archivo: 'REGLAMENTO INTERNO.docx' }
   ];
 
   documentosNotas: Nota[] = [

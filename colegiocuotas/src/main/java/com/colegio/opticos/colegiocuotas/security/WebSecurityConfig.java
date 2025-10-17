@@ -54,8 +54,8 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        //config.setAllowedOrigins(List.of("http://localhost:4200")); // frontend
-        config.setAllowedOrigins(Arrays.asList("https://colegiodeopticosdemisiones.org.ar","https://www.colegiodeopticosdemisiones.org.ar"));
+        config.setAllowedOrigins(List.of("http://localhost:4200")); // frontend
+        //config.setAllowedOrigins(Arrays.asList("https://colegiodeopticosdemisiones.org.ar","https://www.colegiodeopticosdemisiones.org.ar"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // permite cookies si es necesario
