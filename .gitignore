@@ -18,3 +18,4 @@ docker-compose.override.yml
 # Si NO querés versionar configuraciones de Nginx locales
 nginx.conf
 nginx-1.conf
+/colegiocuotas/src/main/resources/application-dev.properties
